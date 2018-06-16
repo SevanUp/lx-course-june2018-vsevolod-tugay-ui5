@@ -1,0 +1,14 @@
+<mvc:View
+        xmlns="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        controllerName="vsevolod.tugay.controller.OrderDetails">
+
+    <Page title="Order details"
+          showNavButton="true"
+          navButtonPress="onNavBack">
+        <content>
+            <Button text="Go to product details" press="onNavToProductDetailsButtonPress" />
+        </content>
+    </Page>
+
+</mvc:View>

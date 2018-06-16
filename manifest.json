@@ -1,0 +1,100 @@
+{
+	"sap.app": {
+		"id": "vsevolod.tugay",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		}
+	},
+	"sap.ui": {
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"rootView": "vsevolod.tugay.view.App",
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "vsevolod.tugay.view",
+				"controlId": "RootApp",
+				"controlAggregation": "pages",
+				"bypassed": {
+					"target": [
+						"notFound"
+					]
+				},
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "OrdersOverview",
+					"target": [
+						"ordersOverview"
+					]
+				},
+				{
+					"pattern": "order",
+					"name": "OrderDetails",
+					"target": [
+						"orderDetails"
+					]
+				},
+				{
+					"pattern": "order/product",
+					"name": "ProductDetails",
+					"target": [
+						"productDetails"
+					]
+				}
+			],
+
+			"targets": {
+				"ordersOverview": {
+					"viewName": "OrdersOverview",
+					"viewId": "ordersOverview",
+					"viewLevel": 1
+				},
+				"orderDetails": {
+					"viewName": "OrderDetails",
+					"viewId": "orderDetails",
+					"viewLevel": 2
+				},
+				"productDetails": {
+					"viewName": "ProductDetails",
+					"viewId": "productDetails",
+					"viewLevel": 3
+				},
+
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				}
+			}
+		},
+		"dependencies": {
+			"minUI5Version": "1.54.0",
+			"libs": {
+				"sap.m": {}
+			}
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "vsevolod.tugay.i18n.i18n"
+				}
+			}
+		}
+	}
+}
