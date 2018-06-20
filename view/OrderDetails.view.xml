@@ -1,14 +1,144 @@
 <mvc:View
         xmlns="sap.m"
         xmlns:mvc="sap.ui.core.mvc"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:core="sap.ui.core"
+        xmlns:l="sap.ui.layout"
         controllerName="vsevolod.tugay.controller.OrderDetails">
 
     <Page title="Order details"
           showNavButton="true"
           navButtonPress="onNavBack">
-        <content>
-            <Button text="Go to product details" press="onNavToProductDetailsButtonPress" />
-        </content>
+        <ObjectHeader
+                title="Order({odata>id}), from {odata>summary/createdAt}"
+                backgroundDesign="Solid"
+                number="Total price {odata>summary/totalPrice} {odata>summary/currency}">
+            <attributes>
+                <ObjectAttribute title="Status" text="{odata>summary/status}" />
+                <ObjectAttribute title="Customer" text="{odata>summary/customer}" />
+            </attributes>
+        </ObjectHeader>
+        <IconTabBar
+                id="idIconTabBar"
+                select="handleIconTabBarSelect"
+                class="sapUiResponsiveContentPadding">
+            <items>
+                <IconTabFilter
+                        text="Ship info"
+                        key="All">
+                    <f:SimpleForm
+                            minWidth="1024"
+                            maxContainerCols="2"
+                            layout="ResponsiveGridLayout"
+                            editable="true">
+                        <Toolbar enabled="false">
+                            <Title text="Ship To Form"/>
+                            <Button
+                                    icon="sap-icon://edit"
+                                    press=""
+                                    class="sapUiSmallMarginEnd"/>
+                        </Toolbar>
+                        <Label text="Ship to" />
+                        <Input value="{odata>shipTo/name}" editable="false"></Input>
+                        <Label text="Address" />
+                        <Input value="{odata>shipTo/address}" editable="false"></Input>
+                        <Label text="ZIP" />
+                        <Input value="{odata>shipTo/ZIP}" editable="false"></Input>
+                        <Label text="Region" />
+                        <Input value="{odata>shipTo/region}" editable="false"></Input>
+                        <Label text="Country" />
+                        <Input value="{odata>shipTo/country}" editable="false"></Input>
+                    </f:SimpleForm>
+                </IconTabFilter>
+                <IconTabFilter
+                        text="Customer Info"
+                        key="Pending">
+                    <f:SimpleForm
+                            minWidth="1024"
+                            maxContainerCols="2"
+                            layout="ResponsiveGridLayout"
+                            editable="true">
+                        <Toolbar enabled="false">
+                            <Title text="Customer Info Form"/>
+                            <Button
+                                    icon="sap-icon://edit"
+                                    press=""
+                                    class="sapUiSmallMarginEnd"/>
+                        </Toolbar>
+                        <Label text="First name" />
+                        <Input value="{odata>customerInfo/firstName}" editable="false"></Input>
+                        <Label text="Last name" />
+                        <Input value="{odata>customerInfo/lastName}" editable="false"></Input>
+                        <Label text="Address" />
+                        <Input value="{odata>customerInfo/address}" editable="false"></Input>
+                        <Label text="Phone" />
+                        <Input type="tel" value="{odata>customerInfo/phone}" editable="false"></Input>
+                        <Label text="Email" />
+                        <Input type="email" value="{odata>customerInfo/email}" editable="false"></Input>
+                    </f:SimpleForm>
+                </IconTabFilter>
+                <IconTabFilter
+                        text="Products"
+                        key="Accepted">
+                    <Table class="sapUiResponsiveMargin"
+                           width="auto"
+                           mode="Delete"
+                           items="{odata>products}"
+                           itemPress="onSingleProductPress">
+                        <headerToolbar>
+                            <Toolbar>
+                                <ToolbarSpacer />
+                                <Button
+                                        icon="sap-icon://add"
+                                        press=""
+                                        class="sapUiSmallMarginEnd"/>
+                            </Toolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column>
+                                <header>
+                                    <Text text="ID" />
+                                </header>
+                            </Column>
+
+                            <Column>
+                                <header>
+                                    <Text text="Name" />
+                                </header>
+                            </Column>
+
+                            <Column>
+                                <header>
+                                    <Text text="Price" />
+                                </header>
+                            </Column>
+
+                            <Column>
+                                <header>
+                                    <Text text="Qty" />
+                                </header>
+                            </Column>
+
+                            <Column>
+                                <header>
+                                    <Text text="Total price" />
+                                </header>
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem type="Navigation">
+                                <Text text="{odata>id}" />
+                                <Text text="{odata>name}" />
+                                <Text text="{odata>price} {odata>currency}" />
+                                <Text text="{odata>quantity}" />
+                                <Text text="{odata>totalPrice}" />
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </IconTabFilter>
+            </items>
+        </IconTabBar>
     </Page>
 
 </mvc:View>

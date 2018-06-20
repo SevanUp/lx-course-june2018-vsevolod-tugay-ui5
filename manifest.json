@@ -44,14 +44,14 @@
 					]
 				},
 				{
-					"pattern": "order",
+					"pattern": "order/{orderId}",
 					"name": "OrderDetails",
 					"target": [
 						"orderDetails"
 					]
 				},
 				{
-					"pattern": "order/product",
+					"pattern": "order/{orderId}/product/{productId}",
 					"name": "ProductDetails",
 					"target": [
 						"productDetails"

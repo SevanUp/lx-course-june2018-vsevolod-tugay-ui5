@@ -1,14 +1,49 @@
 <mvc:View
         xmlns="sap.m"
         xmlns:mvc="sap.ui.core.mvc"
+        xmlns:f="sap.ui.layout.form"
         controllerName="vsevolod.tugay.controller.ProductDetails">
 
     <Page title="Product details"
           showNavButton="true"
           navButtonPress="onNavBack">
-        <content>
-            <Button text="Last page" press="onHelloButtonPress" />
-        </content>
+        <ObjectHeader
+                title="{odata>name}"
+                backgroundDesign="Solid"
+                number="{odata>totalPrice}"
+                numberUnit="{odata>currency}">
+            <attributes>
+                <ObjectAttribute title="Quantity" text="{odata>quantity}" />
+                <ObjectAttribute title="Price" text="{odata>price}" />
+            </attributes>
+        </ObjectHeader>
+        <f:SimpleForm
+                minWidth="1024"
+                maxContainerCols="2"
+                layout="ResponsiveGridLayout"
+                editable="true">
+            <Label text="Author name" />
+            <Input value="" editable="true" />
+            <Label text="Rating" />
+            <RatingIndicator />
+        </f:SimpleForm>
+        <FeedInput post="onPost"/>
+        <List
+                id="idCommentsList"
+                noDataText="{i18n>ObjectCommentNoData}"
+                showSeparators="Inner"
+                items="{
+                     path: 'odata>comments',
+                     sorter: {
+                        path: 'createdDate',
+                        descending: true
+                     }
+                  }">
+            <FeedListItem
+                    sender="{odata>author}"
+                    info="{odata>comment}"
+                    text="{odata>rating}"/>
+        </List>
     </Page>
 
 </mvc:View>

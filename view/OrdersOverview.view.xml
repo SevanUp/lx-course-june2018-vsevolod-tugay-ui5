@@ -1,12 +1,256 @@
 <mvc:View
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
 	controllerName="vsevolod.tugay.controller.OrdersOverview">
 
 	<Page title="Orders overview">
-		<content>
-			<Button text="Go to order details" press="onNavToOrderDetailsButtonPress" />
-		</content>
+		<IconTabBar
+				id="idIconTabBar"
+				select="onIconTabFilterSelect"
+				class="sapUiResponsiveContentPadding">
+			<items>
+				<IconTabFilter
+						showAll="true"
+						text="All orders"
+						count="{countsModel>/ordersCount}"
+						key="All">
+					<Table class="sapUiResponsiveMargin"
+						   id="ordersTable"
+						   width="auto"
+						   mode="Delete"
+						   items="{odata>/Orders}"
+						   itemPress="onSingleOrderPress"
+						   includeItemInSelection="true"
+						   >
+						<headerToolbar>
+							<Toolbar>
+								<ToolbarSpacer />
+								<Button
+										icon="sap-icon://add"
+										press=""
+										class="sapUiSmallMarginEnd"/>
+							</Toolbar>
+						</headerToolbar>
+						<columns>
+							<Column>
+								<header>
+									<Text text="ID" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Customer" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Created at" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Shipped at" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Status" />
+								</header>
+							</Column>
+
+							<Column hAlign="End">
+								<header>
+									<Text text="Total price" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Ship country" />
+								</header>
+							</Column>
+						</columns>
+
+						<items>
+							<ColumnListItem type="Navigation">
+								<Text text="{odata>id}" />
+								<Text text="{odata>summary/customer}" />
+								<Text text="{odata>summary/createdAt}" />
+								<Text text="{odata>summary/shippedAt}" />
+								<Text text="{odata>summary/status}" />
+								<Text text="{odata>summary/totalPrice} {odata>summary/currency}" />
+								<Text text="{odata>shipTo/country}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</IconTabFilter>
+				<IconTabSeparator />
+				<IconTabFilter
+						icon="sap-icon://pending"
+						iconColor="Negative"
+						text="Pending"
+						count="{countsModel>/pendingCount}"
+						key="Pending">
+					<Table class="sapUiResponsiveMargin"
+						   id="pendingOrdersTable"
+						   width="auto"
+						   mode="Delete"
+						   items="{odata>/Orders}"
+						   itemPress="onSingleOrderPress"
+						   includeItemInSelection="true">
+						<headerToolbar>
+							<Toolbar>
+								<ToolbarSpacer />
+								<Button
+										icon="sap-icon://add"
+										press=""
+										class="sapUiSmallMarginEnd"/>
+							</Toolbar>
+						</headerToolbar>
+						<columns>
+							<Column>
+								<header>
+									<Text text="ID" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Customer" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Created at" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Shipped at" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Status" />
+								</header>
+							</Column>
+
+							<Column hAlign="End">
+								<header>
+									<Text text="Total price" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Ship country" />
+								</header>
+							</Column>
+						</columns>
+
+						<items>
+							<ColumnListItem type="Navigation">
+								<Text text="{odata>id}" />
+								<Text text="{odata>summary/customer}" />
+								<Text text="{odata>summary/createdAt}" />
+								<Text text="{odata>summary/shippedAt}" />
+								<Text text="{odata>summary/status}" />
+								<Text text="{odata>summary/totalPrice} {odata>summary/currency}" />
+								<Text text="{odata>shipTo/country}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</IconTabFilter>
+				<IconTabFilter
+						icon="sap-icon://accept"
+						iconColor="Positive"
+						text="Accepted"
+						count="10"
+						key="Accepted">
+					<Table class="sapUiResponsiveMargin"
+						   id="acceptedOrdersTable"
+						   width="auto"
+						   mode="Delete"
+						   items="{odata>/Orders}"
+						   itemPress="onSingleOrderPress"
+						   includeItemInSelection="true">
+						<headerToolbar>
+							<Toolbar>
+								<ToolbarSpacer />
+								<Button
+										icon="sap-icon://add"
+										press=""
+										class="sapUiSmallMarginEnd"/>
+							</Toolbar>
+						</headerToolbar>
+						<columns>
+							<Column>
+								<header>
+									<Text text="ID" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Customer" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Created at" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Shipped at" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Status" />
+								</header>
+							</Column>
+
+							<Column hAlign="End">
+								<header>
+									<Text text="Total price" />
+								</header>
+							</Column>
+
+							<Column>
+								<header>
+									<Text text="Ship country" />
+								</header>
+							</Column>
+						</columns>
+
+						<items>
+							<ColumnListItem type="Navigation" press="onSingleOrderPress">
+								<Text text="{odata>id}" />
+								<Text text="{odata>summary/customer}" />
+								<Text text="{odata>summary/createdAt}" />
+								<Text text="{odata>summary/shippedAt}" />
+								<Text text="{odata>summary/status}" />
+								<Text text="{odata>summary/totalPrice} {odata>summary/currency}" />
+								<Text text="{odata>shipTo/country}" />
+							</ColumnListItem>
+						</items>
+					</Table>
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+
 	</Page>
 
 </mvc:View>
