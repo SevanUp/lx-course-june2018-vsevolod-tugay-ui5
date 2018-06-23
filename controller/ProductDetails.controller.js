@@ -1,12 +1,25 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageToast",
-    "sap/ui/core/routing/History"
-], function (Controller, MessageToast, History) {
+    "sap/m/MessageBox",
+    "sap/ui/core/routing/History",
+    "sap/ui/model/json/JSONModel"
+], function (Controller, MessageToast, MessageBox, History, JSONModel) {
     "use strict";
 
     return Controller.extend("vsevolod.tugay.controller.ProductDetails", {
         onInit: function () {
+
+            var oCommentValuesModel = new JSONModel({
+                author: "",
+                comment: "",
+                rating: 0
+            });
+
+            this.oCommentValuesModel = oCommentValuesModel;
+
+            this.getView().setModel(oCommentValuesModel, "commentValuesModel");
+
             var oRouter = this.getRouter();
 
             oRouter.getRoute("ProductDetails").attachPatternMatched(this.onPatternMatched, this);
@@ -47,6 +60,26 @@ sap.ui.define([
                 });
             });
 
+        },
+        onPostComment: function() {
+            var oODataModel = this.getView().getModel("odata");
+
+            var mPayload = {
+                "comment": this.oCommentValuesModel.getProperty("/comment"),
+                "author": this.oCommentValuesModel.getProperty("/author"),
+                "createdDate": new Date().toISOString(),
+                "rating": this.oCommentValuesModel.getProperty("/rating"),
+                "productId": this.getView().getBindingContext("odata").getObject("id")
+            };
+
+            oODataModel.create("/ProductComments", mPayload, {
+                success: function () {
+                    MessageToast.show("Comment was successfully added!");
+                },
+                error: function () {
+                    MessageBox.error("Error while adding comment!");
+                }
+            });
         }
     });
 });

@@ -10,11 +10,18 @@
           showNavButton="true"
           navButtonPress="onNavBack">
         <ObjectHeader
-                title="Order({odata>id}), from {odata>summary/createdAt}"
+                title="Order({odata>id}), from {
+											path:'odata>summary/createdAt',
+											type: 'sap.ui.model.type.Date',
+											formatOptions: {
+												source: {
+      											  pattern: 'yyyy-MM-ddTHH:mm:ss.sssZ'
+      											}
+											}}"
                 backgroundDesign="Solid"
                 number="Total price {odata>summary/totalPrice} {odata>summary/currency}">
             <attributes>
-                <ObjectAttribute title="Status" text="{odata>summary/status}" />
+                <ObjectAttribute title="Status" text="{= ${odata>summary/status}.charAt(0).toUpperCase() + ${odata>summary/status}.slice(1)}" />
                 <ObjectAttribute title="Customer" text="{odata>summary/customer}" />
             </attributes>
         </ObjectHeader>
@@ -27,54 +34,83 @@
                         text="Ship info"
                         key="All">
                     <f:SimpleForm
-                            minWidth="1024"
-                            maxContainerCols="2"
+                            id="shipForm"
                             layout="ResponsiveGridLayout"
+                            labelSpanL="3"
+                            labelSpanM="3"
+                            emptySpanL="4"
+                            emptySpanM="4"
                             editable="true">
-                        <Toolbar enabled="false">
+                        <Toolbar enabled="true" >
                             <Title text="Ship To Form"/>
                             <Button
                                     icon="sap-icon://edit"
-                                    press=""
+                                    press="onEditShipFormPress"
+                                    visible="{= !${edit>/toggleShipForm}}"
                                     class="sapUiSmallMarginEnd"/>
+                            <Button
+                                    icon="sap-icon://cancel"
+                                    visible="{edit>/toggleShipForm}"
+                                    press="onCancelShipFormPress"
+                            />
+                            <Button
+                                    icon="sap-icon://save"
+                                    press="onSaveShipFormPress"
+                                    visible="{edit>/toggleShipForm}"
+                                    class="sapUiSmallMarginBeginEnd"/>
                         </Toolbar>
                         <Label text="Ship to" />
-                        <Input value="{odata>shipTo/name}" editable="false"></Input>
+                        <Input id="shipToName" value="{odata>shipTo/name}" editable="{edit>/toggleShipForm}" />
                         <Label text="Address" />
-                        <Input value="{odata>shipTo/address}" editable="false"></Input>
+                        <Input id="shipToAddress" value="{odata>shipTo/address}" editable="{edit>/toggleShipForm}" />
                         <Label text="ZIP" />
-                        <Input value="{odata>shipTo/ZIP}" editable="false"></Input>
+                        <Input id="shipToZIP" value="{odata>shipTo/ZIP}" editable="{edit>/toggleShipForm}" />
                         <Label text="Region" />
-                        <Input value="{odata>shipTo/region}" editable="false"></Input>
+                        <Input id="shipToRegion" value="{odata>shipTo/region}" editable="{edit>/toggleShipForm}" />
                         <Label text="Country" />
-                        <Input value="{odata>shipTo/country}" editable="false"></Input>
+                        <Input id="shipToCountry" value="{odata>shipTo/country}" editable="{edit>/toggleShipForm}" />
                     </f:SimpleForm>
                 </IconTabFilter>
                 <IconTabFilter
                         text="Customer Info"
                         key="Pending">
                     <f:SimpleForm
+                            id="customerForm"
                             minWidth="1024"
-                            maxContainerCols="2"
                             layout="ResponsiveGridLayout"
+                            labelSpanL="3"
+                            labelSpanM="3"
+                            emptySpanL="4"
+                            emptySpanM="4"
                             editable="true">
-                        <Toolbar enabled="false">
+                        <Toolbar enabled="true">
                             <Title text="Customer Info Form"/>
                             <Button
                                     icon="sap-icon://edit"
-                                    press=""
+                                    visible="{= !${edit>/toggleCustomerForm}}"
+                                    press="onEditCustomerFormPress"
                                     class="sapUiSmallMarginEnd"/>
+                            <Button
+                                    icon="sap-icon://cancel"
+                                    visible="{edit>/toggleCustomerForm}"
+                                    press="onCancelCustomerFormPress"
+                            />
+                            <Button
+                                    icon="sap-icon://save"
+                                    press="onSaveCustomerFormPress"
+                                    visible="{edit>/toggleCustomerForm}"
+                                    class="sapUiSmallMarginBeginEnd"/>
                         </Toolbar>
                         <Label text="First name" />
-                        <Input value="{odata>customerInfo/firstName}" editable="false"></Input>
+                        <Input id="customerFirstName" value="{odata>customerInfo/firstName}" editable="{edit>/toggleCustomerForm}" />
                         <Label text="Last name" />
-                        <Input value="{odata>customerInfo/lastName}" editable="false"></Input>
+                        <Input id="customerLastName" value="{odata>customerInfo/lastName}" editable="{edit>/toggleCustomerForm}" />
                         <Label text="Address" />
-                        <Input value="{odata>customerInfo/address}" editable="false"></Input>
+                        <Input id="customerAddress" value="{odata>customerInfo/address}" editable="{edit>/toggleCustomerForm}" />
                         <Label text="Phone" />
-                        <Input type="tel" value="{odata>customerInfo/phone}" editable="false"></Input>
+                        <Input id="customerPhone" type="tel" value="{odata>customerInfo/phone}" editable="{edit>/toggleCustomerForm}" />
                         <Label text="Email" />
-                        <Input type="email" value="{odata>customerInfo/email}" editable="false"></Input>
+                        <Input id="customerEmail" type="email" value="{odata>customerInfo/email}" editable="{edit>/toggleCustomerForm}" />
                     </f:SimpleForm>
                 </IconTabFilter>
                 <IconTabFilter
@@ -84,14 +120,15 @@
                            width="auto"
                            mode="Delete"
                            items="{odata>products}"
-                           itemPress="onSingleProductPress">
+                           itemPress="onSingleProductPress"
+                           delete="onSingleProductDelete">
                         <headerToolbar>
                             <Toolbar>
                                 <ToolbarSpacer />
                                 <Button
                                         icon="sap-icon://add"
-                                        press=""
-                                        class="sapUiSmallMarginEnd"/>
+                                        press="onAddOrderFormPress"
+                                />
                             </Toolbar>
                         </headerToolbar>
                         <columns>
@@ -107,19 +144,19 @@
                                 </header>
                             </Column>
 
-                            <Column>
+                            <Column minScreenWidth="350px" demandPopin="true">
                                 <header>
                                     <Text text="Price" />
                                 </header>
                             </Column>
 
-                            <Column>
+                            <Column minScreenWidth="450px" demandPopin="true">
                                 <header>
                                     <Text text="Qty" />
                                 </header>
                             </Column>
 
-                            <Column>
+                            <Column minScreenWidth="550px" demandPopin="true">
                                 <header>
                                     <Text text="Total price" />
                                 </header>
@@ -130,9 +167,9 @@
                             <ColumnListItem type="Navigation">
                                 <Text text="{odata>id}" />
                                 <Text text="{odata>name}" />
-                                <Text text="{odata>price} {odata>currency}" />
+                                <Text text="{odata>price}" />
                                 <Text text="{odata>quantity}" />
-                                <Text text="{odata>totalPrice}" />
+                                <Text text="{odata>totalPrice} {odata>currency}" />
                             </ColumnListItem>
                         </items>
                     </Table>

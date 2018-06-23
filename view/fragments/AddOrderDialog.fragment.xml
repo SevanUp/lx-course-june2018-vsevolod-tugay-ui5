@@ -1,0 +1,71 @@
+<core:FragmentDefinition
+        xmlns="sap.m"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:core="sap.ui.core" >
+    <Dialog
+            id="AddOrderDialog"
+            title="Add order">
+        <f:SimpleForm
+                id="AddOrderForm"
+                maxContainerCols="1"
+                layout="ResponsiveGridLayout"
+                labelSpanL="12"
+                labelSpanM="12"
+                emptySpanL="0"
+                emptySpanM="0"
+                columnsL="1"
+                columnsM="1">
+            <f:content>
+                <Label text="Customer"/>
+                <Input value="{orderValuesModel>/customer}"
+                       required="true"
+                       liveChange="onRequiredInputKeyPress"/>
+
+                <HBox justifyContent="Center">
+                    <Text text="Shipping Address" />
+                </HBox>
+
+                <Label text="Name"/>
+                <Input value="{orderValuesModel>/shipName}" />
+
+                <Label text="Address"/>
+                <Input value="{orderValuesModel>/shipAddress}" />
+
+                <Label text="ZIP"/>
+                <Input value="{orderValuesModel>/shipZIP}" />
+
+                <Label text="Region"/>
+                <Input value="{orderValuesModel>/shipRegion}" />
+
+                <Label text="Country"/>
+                <Input value="{orderValuesModel>/shipCountry}" />
+
+                <HBox justifyContent="Center">
+                    <Text text="Customer Information" />
+                </HBox>
+
+                <Label text="First Name"/>
+                <Input value="{orderValuesModel>/custFirstName}" />
+
+                <Label text="Last Name"/>
+                <Input value="{orderValuesModel>/custLastName}" />
+
+                <Label text="Address"/>
+                <Input value="{orderValuesModel>/custAddress}" />
+
+                <Label text="Phone number"/>
+                <Input value="{orderValuesModel>/custPhone}"
+                       liveChange="validatePhone"/>
+
+                <Label text="Email"/>
+                <Input value="{orderValuesModel>/custEmail}"
+                       liveChange="validateEmail"/>
+            </f:content>
+        </f:SimpleForm>
+
+        <buttons>
+            <Button text="Add" press="onAddOrderPress" />
+            <Button text="Close" press="onCancelAddOrderPress" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

@@ -10,13 +10,11 @@ sap.ui.define([
 		},
 
 		init : function () {
-			// call the init function of the parent
 			UIComponent.prototype.init.apply(this, arguments);
 
             var oODataModel = new ODataModel("http://localhost:3000/odata", {
                 useBatch: false,
-                defaultBindingMode: "TwoWay",
-                defaultCountMode: "InlineRepeat"
+                defaultBindingMode: "TwoWay"
             });
 
             this.setModel(oODataModel, "odata");

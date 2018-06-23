@@ -2,6 +2,7 @@
         xmlns="sap.m"
         xmlns:mvc="sap.ui.core.mvc"
         xmlns:f="sap.ui.layout.form"
+        xmlns:l="sap.ui.layout"
         controllerName="vsevolod.tugay.controller.ProductDetails">
 
     <Page title="Product details"
@@ -10,27 +11,44 @@
         <ObjectHeader
                 title="{odata>name}"
                 backgroundDesign="Solid"
-                number="{odata>totalPrice}"
+                number="{
+                       path: 'odata>totalPrice',
+                       type: 'sap.ui.model.type.Float',
+					   formatOptions: {
+					   	decimals: 2
+					   }}"
                 numberUnit="{odata>currency}">
             <attributes>
-                <ObjectAttribute title="Quantity" text="{odata>quantity}" />
-                <ObjectAttribute title="Price" text="{odata>price}" />
+                <ObjectAttribute text="Quantity: {odata>quantity}, price: {odata>price}" />
             </attributes>
         </ObjectHeader>
         <f:SimpleForm
-                minWidth="1024"
-                maxContainerCols="2"
                 layout="ResponsiveGridLayout"
                 editable="true">
-            <Label text="Author name" />
-            <Input value="" editable="true" />
-            <Label text="Rating" />
-            <RatingIndicator />
+            <Label text="Author name">
+                <layoutData>
+                    <l:GridData span="L1 M1" />
+                </layoutData>
+            </Label>
+            <Input value="{commentValuesModel>/author}" editable="true">
+                <layoutData>
+                    <l:GridData span="L2 M2" />
+                </layoutData>
+            </Input>
+            <Label text="Rating">
+                <layoutData>
+                    <l:GridData span="L1 M1" />
+                </layoutData>
+            </Label>
+            <RatingIndicator value="{commentValuesModel>/rating}">
+                <layoutData>
+                    <l:GridData span="L1 M1" />
+                </layoutData>
+            </RatingIndicator>
         </f:SimpleForm>
-        <FeedInput post="onPost"/>
+        <FeedInput value="{commentValuesModel>/comment}" post="onPostComment"/>
         <List
                 id="idCommentsList"
-                noDataText="{i18n>ObjectCommentNoData}"
                 showSeparators="Inner"
                 items="{
                      path: 'odata>comments',
@@ -41,8 +59,8 @@
                   }">
             <FeedListItem
                     sender="{odata>author}"
-                    info="{odata>comment}"
-                    text="{odata>rating}"/>
+                    info="Rating: {odata>rating}"
+                    text="{odata>comment}"/>
         </List>
     </Page>
 

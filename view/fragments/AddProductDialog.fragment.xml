@@ -1,0 +1,52 @@
+<core:FragmentDefinition
+        xmlns="sap.m"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:core="sap.ui.core" >
+    <Dialog
+            id="AddOrderDialog"
+            title="Add order">
+        <f:SimpleForm
+                id="AddProductForm"
+                maxContainerCols="1"
+                layout="ResponsiveGridLayout"
+                labelSpanL="12"
+                labelSpanM="12"
+                emptySpanL="0"
+                emptySpanM="0"
+                columnsL="1"
+                columnsM="1">
+            <f:content>
+                <Label text="Name"/>
+                <Input value="{productValuesModel>/name}"
+                       required="true"/>
+
+                <Label text="Price"/>
+                <Input value="{
+                       path: 'productValuesModel>/price',
+                       type: 'sap.ui.model.type.Integer'
+                       }"
+                       required="true"/>
+
+                <Label text="Currency"/>
+                <Input value="{path:'productValuesModel>/currency',
+                               type: 'sap.ui.model.type.String',
+                               constraints: {
+					                minLength: 3,
+					                maxLength: 3
+				               }}"
+                       required="true"/>
+
+                <Label text="Quantity"/>
+                <Input value="{path: 'productValuesModel>/quantity',
+                               type: 'sap.ui.model.type.Integer'}"
+                       required="true"/>
+
+            </f:content>
+        </f:SimpleForm>
+
+        <buttons>
+            <Button text="Add" press="onAddProductPress" />
+            <Button text="Close" press="onCancelAddProductPress" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>
