@@ -3,11 +3,11 @@
 	xmlns="sap.m">
 
 	<MessagePage
-		title="Not Found"
-		text="The requested resource was not found"
+		title="{i18n>NotFound}"
+		text="{i18n>NotFoundText}"
 		icon="{sap-icon://document}"
 		id="page"
-		description="Here description goes">
+		description="">
 	</MessagePage>
 
 </mvc:View>

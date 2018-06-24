@@ -6,23 +6,31 @@
         xmlns:l="sap.ui.layout"
         controllerName="vsevolod.tugay.controller.OrderDetails">
 
-    <Page title="Order details"
+    <Page title="{i18n>OrderDetails}"
           showNavButton="true"
           navButtonPress="onNavBack">
         <ObjectHeader
-                title="Order({odata>id}), from {
-											path:'odata>summary/createdAt',
+                title="{parts:[
+                               'i18n>OrderDetailsName',
+                               'odata>id',
+                               {path:'odata>summary/createdAt',
 											type: 'sap.ui.model.type.Date',
 											formatOptions: {
 												source: {
       											  pattern: 'yyyy-MM-ddTHH:mm:ss.sssZ'
       											}
-											}}"
+								}}],
+								formatter: 'jQuery.sap.formatMessage'
+								}"
                 backgroundDesign="Solid"
-                number="Total price {odata>summary/totalPrice} {odata>summary/currency}">
+                number="{parts: [
+                                 'i18n>OrderDetailsPrice',
+                                 'odata>summary/totalPrice',
+                                 'odata>summary/currency'],
+                                 formatter: 'jQuery.sap.formatMessage'}">
             <attributes>
-                <ObjectAttribute title="Status" text="{= ${odata>summary/status}.charAt(0).toUpperCase() + ${odata>summary/status}.slice(1)}" />
-                <ObjectAttribute title="Customer" text="{odata>summary/customer}" />
+                <ObjectAttribute title="{i18n>Status}" text="{= ${odata>summary/status}.charAt(0).toUpperCase() + ${odata>summary/status}.slice(1)}" />
+                <ObjectAttribute title="{i18n>Customer}" text="{odata>summary/customer}" />
             </attributes>
         </ObjectHeader>
         <IconTabBar
@@ -31,7 +39,7 @@
                 class="sapUiResponsiveContentPadding">
             <items>
                 <IconTabFilter
-                        text="Ship info"
+                        text="{i18n>ShipInfo}"
                         key="All">
                     <f:SimpleForm
                             id="shipForm"
@@ -42,7 +50,7 @@
                             emptySpanM="4"
                             editable="true">
                         <Toolbar enabled="true" >
-                            <Title text="Ship To Form"/>
+                            <Title text="{i18n>ShipToForm}"/>
                             <Button
                                     icon="sap-icon://edit"
                                     press="onEditShipFormPress"
@@ -59,20 +67,20 @@
                                     visible="{edit>/toggleShipForm}"
                                     class="sapUiSmallMarginBeginEnd"/>
                         </Toolbar>
-                        <Label text="Ship to" />
+                        <Label text="{i18n>ShipTo}" />
                         <Input id="shipToName" value="{odata>shipTo/name}" editable="{edit>/toggleShipForm}" />
-                        <Label text="Address" />
+                        <Label text="{i18n>Address}" />
                         <Input id="shipToAddress" value="{odata>shipTo/address}" editable="{edit>/toggleShipForm}" />
-                        <Label text="ZIP" />
+                        <Label text="{i18n>ZIP}" />
                         <Input id="shipToZIP" value="{odata>shipTo/ZIP}" editable="{edit>/toggleShipForm}" />
-                        <Label text="Region" />
+                        <Label text="{i18n>Region}" />
                         <Input id="shipToRegion" value="{odata>shipTo/region}" editable="{edit>/toggleShipForm}" />
-                        <Label text="Country" />
+                        <Label text="{i18n>Country}" />
                         <Input id="shipToCountry" value="{odata>shipTo/country}" editable="{edit>/toggleShipForm}" />
                     </f:SimpleForm>
                 </IconTabFilter>
                 <IconTabFilter
-                        text="Customer Info"
+                        text="{i18n>CustomerInfo}"
                         key="Pending">
                     <f:SimpleForm
                             id="customerForm"
@@ -84,7 +92,7 @@
                             emptySpanM="4"
                             editable="true">
                         <Toolbar enabled="true">
-                            <Title text="Customer Info Form"/>
+                            <Title text="{i18n>CustomerInfoForm}"/>
                             <Button
                                     icon="sap-icon://edit"
                                     visible="{= !${edit>/toggleCustomerForm}}"
@@ -101,20 +109,20 @@
                                     visible="{edit>/toggleCustomerForm}"
                                     class="sapUiSmallMarginBeginEnd"/>
                         </Toolbar>
-                        <Label text="First name" />
+                        <Label text="{i18n>FirstName}" />
                         <Input id="customerFirstName" value="{odata>customerInfo/firstName}" editable="{edit>/toggleCustomerForm}" />
-                        <Label text="Last name" />
+                        <Label text="{i18n>LastName}" />
                         <Input id="customerLastName" value="{odata>customerInfo/lastName}" editable="{edit>/toggleCustomerForm}" />
-                        <Label text="Address" />
+                        <Label text="{i18n>Address}" />
                         <Input id="customerAddress" value="{odata>customerInfo/address}" editable="{edit>/toggleCustomerForm}" />
-                        <Label text="Phone" />
+                        <Label text="{i18n>Phone}" />
                         <Input id="customerPhone" type="tel" value="{odata>customerInfo/phone}" editable="{edit>/toggleCustomerForm}" />
-                        <Label text="Email" />
+                        <Label text="{i18n>Email}" />
                         <Input id="customerEmail" type="email" value="{odata>customerInfo/email}" editable="{edit>/toggleCustomerForm}" />
                     </f:SimpleForm>
                 </IconTabFilter>
                 <IconTabFilter
-                        text="Products"
+                        text="{i18n>Products}"
                         key="Accepted">
                     <Table class="sapUiResponsiveMargin"
                            width="auto"
@@ -134,31 +142,31 @@
                         <columns>
                             <Column>
                                 <header>
-                                    <Text text="ID" />
+                                    <Text text="{i18n>ID}" />
                                 </header>
                             </Column>
 
                             <Column>
                                 <header>
-                                    <Text text="Name" />
+                                    <Text text="{i18n>Name}" />
                                 </header>
                             </Column>
 
                             <Column minScreenWidth="350px" demandPopin="true">
                                 <header>
-                                    <Text text="Price" />
+                                    <Text text="{i18n>Price}" />
                                 </header>
                             </Column>
 
                             <Column minScreenWidth="450px" demandPopin="true">
                                 <header>
-                                    <Text text="Qty" />
+                                    <Text text="{i18n>Qty}" />
                                 </header>
                             </Column>
 
                             <Column minScreenWidth="550px" demandPopin="true">
                                 <header>
-                                    <Text text="Total price" />
+                                    <Text text="{i18n>TotalPrice}" />
                                 </header>
                             </Column>
                         </columns>

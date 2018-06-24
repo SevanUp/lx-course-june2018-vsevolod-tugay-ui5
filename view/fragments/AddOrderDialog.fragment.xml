@@ -4,7 +4,7 @@
         xmlns:core="sap.ui.core" >
     <Dialog
             id="AddOrderDialog"
-            title="Add order">
+            title="{i18n>AddOrderTitle}">
         <f:SimpleForm
                 id="AddOrderForm"
                 maxContainerCols="1"
@@ -16,56 +16,56 @@
                 columnsL="1"
                 columnsM="1">
             <f:content>
-                <Label text="Customer"/>
+                <Label text="{i18n>Customer}"/>
                 <Input value="{orderValuesModel>/customer}"
                        required="true"
                        liveChange="onRequiredInputKeyPress"/>
 
                 <HBox justifyContent="Center">
-                    <Text text="Shipping Address" />
+                    <Text text="{i18n>ShippingAddress}" />
                 </HBox>
 
-                <Label text="Name"/>
+                <Label text="{i18n>Name}"/>
                 <Input value="{orderValuesModel>/shipName}" />
 
-                <Label text="Address"/>
+                <Label text="{i18n>Address}"/>
                 <Input value="{orderValuesModel>/shipAddress}" />
 
-                <Label text="ZIP"/>
+                <Label text="{i18n>ZIP}"/>
                 <Input value="{orderValuesModel>/shipZIP}" />
 
-                <Label text="Region"/>
+                <Label text="{i18n>Region}"/>
                 <Input value="{orderValuesModel>/shipRegion}" />
 
-                <Label text="Country"/>
+                <Label text="{i18n>Country}"/>
                 <Input value="{orderValuesModel>/shipCountry}" />
 
                 <HBox justifyContent="Center">
-                    <Text text="Customer Information" />
+                    <Text text="{i18n>CustomerInformation}" />
                 </HBox>
 
-                <Label text="First Name"/>
+                <Label text="{i18n>FirstName}"/>
                 <Input value="{orderValuesModel>/custFirstName}" />
 
-                <Label text="Last Name"/>
+                <Label text="{i18n>LastName}"/>
                 <Input value="{orderValuesModel>/custLastName}" />
 
-                <Label text="Address"/>
+                <Label text="{i18n>Address}"/>
                 <Input value="{orderValuesModel>/custAddress}" />
 
-                <Label text="Phone number"/>
+                <Label text="{i18n>PhoneNumber}"/>
                 <Input value="{orderValuesModel>/custPhone}"
                        liveChange="validatePhone"/>
 
-                <Label text="Email"/>
+                <Label text="{i18n>Email}"/>
                 <Input value="{orderValuesModel>/custEmail}"
                        liveChange="validateEmail"/>
             </f:content>
         </f:SimpleForm>
 
         <buttons>
-            <Button text="Add" press="onAddOrderPress" />
-            <Button text="Close" press="onCancelAddOrderPress" />
+            <Button text="{i18n>Add}" press="onAddOrderPress" />
+            <Button text="{i18n>Close}" press="onCancelAddOrderPress" />
         </buttons>
     </Dialog>
 </core:FragmentDefinition>

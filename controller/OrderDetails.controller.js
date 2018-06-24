@@ -8,6 +8,10 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("vsevolod.tugay.controller.OrderDetails", {
+
+        /**
+         * Controller's "init" lifecycle method.
+         */
         onInit: function () {
 
             sap.ui.getCore().getMessageManager().registerObject(this.getView(), true);
@@ -36,13 +40,20 @@ sap.ui.define([
 
             oRouter.getRoute("OrderDetails").attachPatternMatched(this.onPatternMatched, this);
         },
+
+        /**
+         * Gets the reference to the router instance.
+         *
+         * @returns {sap.ui.core.routing.Router} reference to the router instance.
+         */
         getRouter : function () {
             return sap.ui.core.UIComponent.getRouterFor(this);
         },
-        onNavToProductDetailsButtonPress: function (oEvent) {
-            this.getRouter().navTo("ProductDetails", {}, false);
-        },
-        onNavBack: function (oEvent) {
+
+        /**
+         * "NavButtonPress" event handler of the "Page".
+         */
+        onNavBack: function () {
             var oHistory = History.getInstance();
             var sPreviousHash = oHistory.getPreviousHash();
 
@@ -52,6 +63,12 @@ sap.ui.define([
                 this.getRouter().navTo("OrdersOverview", {}, true);
             }
         },
+
+        /**
+         * "OrderDetails" route pattern matched event handler.
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onPatternMatched: function (oEvent) {
             var that = this;
 
@@ -71,29 +88,51 @@ sap.ui.define([
                 });
             });
         },
+
+        /**
+         * "ItemPress" event handler of the "Table".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onSingleProductPress: function (oEvent) {
             var oSelectedListItem = oEvent.getParameter("listItem");
 
             var oCtx = oSelectedListItem.getBindingContext("odata");
 
             this.getRouter().navTo("ProductDetails", {
-                orderId: oCtx.getObject("orderId"),
+                orderId: oCtx.getObject("orderId"), //placeholder'ы для них прописаны в роутинге манифеста
                 productId: oCtx.getObject("id")
             });
         },
-        onEditShipFormPress: function (oEvent) {
+
+        /**
+         * "Press" event handler of the "Button".
+         */
+        onEditShipFormPress: function () {
             this.oToggleEditModel.setProperty("/toggleShipForm", true);
         },
-        onEditCustomerFormPress: function (oEvent) {
+
+        /**
+         * "Press" event handler of the "Button".
+         */
+        onEditCustomerFormPress: function () {
             this.oToggleEditModel.setProperty("/toggleCustomerForm", true);
         },
-        onSaveShipFormPress: function (oEvent) {
+
+        /**
+         * "Press" event handler of the "Button".
+         */
+        onSaveShipFormPress: function () {
             this.oToggleEditModel.setProperty("/toggleShipForm", false);
 
             var oODataModel = this.getView().getModel("odata");
 
             oODataModel.submitChanges();
         },
+
+        /**
+         * "Press" event handler of the "Button".
+         */
         onSaveCustomerFormPress: function (oEvent) {
             this.oToggleEditModel.setProperty("/toggleCustomerForm", false);
 
@@ -101,22 +140,34 @@ sap.ui.define([
 
             oODataModel.submitChanges();
         },
+
+        /**
+         * "Press" event handler of the "Button".
+         */
         onCancelShipFormPress: function (oEvent) {
             this.oToggleEditModel.setProperty("/toggleShipForm", false);
 
             var oODataModel = this.getView().getModel("odata");
 
             oODataModel.resetChanges();
-
         },
+
+        /**
+         * "Press" event handler of the "Button".
+         */
         onCancelCustomerFormPress: function (oEvent) {
             this.oToggleEditModel.setProperty("/toggleCustomerForm", false);
 
             var oODataModel = this.getView().getModel("odata");
 
             oODataModel.resetChanges();
-
         },
+
+        /**
+         * "Delete" event handler of the "Table".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onSingleProductDelete: function (oEvent) {
             var oDeletedProduct = oEvent.getParameter("listItem");
 
@@ -135,7 +186,11 @@ sap.ui.define([
                 }
             });
         },
-        onAddOrderFormPress: function (oEvent) {
+
+        /**
+         * "Press" event handler of the "Button".
+         */
+        onAddOrderFormPress: function () {
             var oView = this.getView();
 
             if (!this.oDialog) {
@@ -146,6 +201,10 @@ sap.ui.define([
 
             this.oDialog.open();
         },
+
+        /**
+         * "Press" event handler of the "Button".
+         */
         onAddProductPress: function () {
             var that = this;
 
@@ -178,7 +237,8 @@ sap.ui.define([
                 "price": this.oProductValuesModel.getProperty("/price"),
                 "currency": this.oProductValuesModel.getProperty("/currency"),
                 "quantity": this.oProductValuesModel.getProperty("/quantity"),
-                "totalPrice": Number.parseInt(this.oProductValuesModel.getProperty("/price")) * Number.parseInt(this.oProductValuesModel.getProperty("/quantity")),
+                "totalPrice": Number.parseInt(this.oProductValuesModel.getProperty("/price")) *
+                              Number.parseInt(this.oProductValuesModel.getProperty("/quantity")),
                 "orderId": this.getView().getBindingContext("odata").getObject("id")
             };
 
@@ -192,6 +252,10 @@ sap.ui.define([
                 }
             });
         },
+
+        /**
+         * "Press" event handler of the "Button".
+         */
         onCancelAddProductPress: function () {
             var oAddOrderForm = this.getView().byId("AddProductForm");
 

@@ -8,6 +8,10 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("vsevolod.tugay.controller.ProductDetails", {
+
+        /**
+         * Controller's "init" lifecycle method.
+         */
         onInit: function () {
 
             var oCommentValuesModel = new JSONModel({
@@ -24,13 +28,20 @@ sap.ui.define([
 
             oRouter.getRoute("ProductDetails").attachPatternMatched(this.onPatternMatched, this);
         },
+
+        /**
+         * Gets the reference to the router instance.
+         *
+         * @returns {sap.ui.core.routing.Router} reference to the router instance.
+         */
         getRouter : function () {
             return sap.ui.core.UIComponent.getRouterFor(this);
         },
-        onHelloButtonPress: function () {
-            MessageToast.show("This is last page!");
-        },
-        onNavBack: function (oEvent) {
+
+        /**
+         * "NavButtonPress" event handler of the "Page".
+         */
+        onNavBack: function () {
             var oHistory = History.getInstance();
             var sPreviousHash = oHistory.getPreviousHash();
 
@@ -40,6 +51,12 @@ sap.ui.define([
                 this.getRouter().navTo("OrdersOverview", {}, true);
             }
         },
+
+        /**
+         * "ProductDetails" route pattern matched event handler.
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onPatternMatched: function (oEvent) {
 
             var that = this;
@@ -61,6 +78,10 @@ sap.ui.define([
             });
 
         },
+
+        /**
+         * "Post" event handler of the "FeedInput".
+         */
         onPostComment: function() {
             var oODataModel = this.getView().getModel("odata");
 

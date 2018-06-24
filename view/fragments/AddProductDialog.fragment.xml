@@ -4,7 +4,7 @@
         xmlns:core="sap.ui.core" >
     <Dialog
             id="AddOrderDialog"
-            title="Add order">
+            title="{i18n>AddProductTitle}">
         <f:SimpleForm
                 id="AddProductForm"
                 maxContainerCols="1"
@@ -16,18 +16,18 @@
                 columnsL="1"
                 columnsM="1">
             <f:content>
-                <Label text="Name"/>
+                <Label text="{i18n>Name}"/>
                 <Input value="{productValuesModel>/name}"
                        required="true"/>
 
-                <Label text="Price"/>
+                <Label text="{i18n>Price}"/>
                 <Input value="{
                        path: 'productValuesModel>/price',
                        type: 'sap.ui.model.type.Integer'
                        }"
                        required="true"/>
 
-                <Label text="Currency"/>
+                <Label text="{i18n>Currency}"/>
                 <Input value="{path:'productValuesModel>/currency',
                                type: 'sap.ui.model.type.String',
                                constraints: {
@@ -36,7 +36,7 @@
 				               }}"
                        required="true"/>
 
-                <Label text="Quantity"/>
+                <Label text="{i18n>Quantity}"/>
                 <Input value="{path: 'productValuesModel>/quantity',
                                type: 'sap.ui.model.type.Integer'}"
                        required="true"/>
@@ -45,8 +45,8 @@
         </f:SimpleForm>
 
         <buttons>
-            <Button text="Add" press="onAddProductPress" />
-            <Button text="Close" press="onCancelAddProductPress" />
+            <Button text="{i18n>Add}" press="onAddProductPress" />
+            <Button text="{i18n>Close}" press="onCancelAddProductPress" />
         </buttons>
     </Dialog>
 </core:FragmentDefinition>

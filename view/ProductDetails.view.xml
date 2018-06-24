@@ -5,7 +5,7 @@
         xmlns:l="sap.ui.layout"
         controllerName="vsevolod.tugay.controller.ProductDetails">
 
-    <Page title="Product details"
+    <Page title="{i18n>ProductDetails}"
           showNavButton="true"
           navButtonPress="onNavBack">
         <ObjectHeader
@@ -19,15 +19,19 @@
 					   }}"
                 numberUnit="{odata>currency}">
             <attributes>
-                <ObjectAttribute text="Quantity: {odata>quantity}, price: {odata>price}" />
+                <ObjectAttribute text="{parts: [
+                                                'i18n>ProductDetailsAttribute',
+                                                'odata>quantity',
+                                                'odata>price'],
+                                                formatter: 'jQuery.sap.formatMessage'}" />
             </attributes>
         </ObjectHeader>
         <f:SimpleForm
                 layout="ResponsiveGridLayout"
                 editable="true">
-            <Label text="Author name">
+            <Label text="{i18n>AuthorName}">
                 <layoutData>
-                    <l:GridData span="L1 M1" />
+                    <l:GridData span="L1 M2" />
                 </layoutData>
             </Label>
             <Input value="{commentValuesModel>/author}" editable="true">
@@ -35,14 +39,14 @@
                     <l:GridData span="L2 M2" />
                 </layoutData>
             </Input>
-            <Label text="Rating">
+            <Label text="{i18n>Rating}">
                 <layoutData>
-                    <l:GridData span="L1 M1" />
+                    <l:GridData span="L1 M2" />
                 </layoutData>
             </Label>
             <RatingIndicator value="{commentValuesModel>/rating}">
                 <layoutData>
-                    <l:GridData span="L1 M1" />
+                    <l:GridData span="L1 M2" />
                 </layoutData>
             </RatingIndicator>
         </f:SimpleForm>
@@ -59,7 +63,10 @@
                   }">
             <FeedListItem
                     sender="{odata>author}"
-                    info="Rating: {odata>rating}"
+                    info="{parts: [
+                                   'i18n>RatingComment',
+                                   'odata>rating'],
+                                   formatter: 'jQuery.sap.formatMessage'}"
                     text="{odata>comment}"/>
         </List>
     </Page>

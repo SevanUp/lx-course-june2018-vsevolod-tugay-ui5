@@ -4,7 +4,7 @@
 	xmlns:core="sap.ui.core"
 	controllerName="vsevolod.tugay.controller.OrdersOverview">
 
-	<Page title="Orders overview">
+	<Page title="{i18n>OrdersOverview}">
 		<IconTabBar
 				id="idIconTabBar"
 				select="onIconTabFilterSelect"
@@ -12,7 +12,7 @@
 			<items>
 				<IconTabFilter
 						showAll="true"
-						text="All orders"
+						text="{i18n>ShowAllOrdersTitle}"
 						count="{countsModel>/allCount}"
 						key="all">
 				</IconTabFilter>
@@ -20,14 +20,14 @@
 				<IconTabFilter
 						icon="sap-icon://pending"
 						iconColor="Negative"
-						text="Pending"
+						text="{i18n>ShowPendingOrdersTitle}"
 						count="{countsModel>/pendingCount}"
 						key="pending">
 				</IconTabFilter>
 				<IconTabFilter
 						icon="sap-icon://accept"
 						iconColor="Positive"
-						text="Accepted"
+						text="{i18n>ShowAcceptedOrdersTitle}"
 						count="{countsModel>/acceptedCount}"
 						key="accepted">
 				</IconTabFilter>
@@ -54,43 +54,43 @@
 					<columns>
 						<Column>
 							<header>
-								<Text text="ID" />
+								<Text text="{i18n>ID}" />
 							</header>
 						</Column>
 
 						<Column>
 							<header>
-								<Text text="Customer" />
+								<Text text="{i18n>Customer}" />
 							</header>
 						</Column>
 
 						<Column minScreenWidth="450px" demandPopin="true">
 							<header>
-								<Text text="Created at" />
+								<Text text="{i18n>CreatedAt}" />
 							</header>
 						</Column>
 
 						<Column minScreenWidth="450px" demandPopin="true">
 							<header>
-								<Text text="Shipped at" />
+								<Text text="{i18n>ShippedAt}" />
 							</header>
 						</Column>
 
 						<Column minScreenWidth="550px" demandPopin="true">
 							<header>
-								<Text text="Status" />
+								<Text text="{i18n>Status}" />
 							</header>
 						</Column>
 
 						<Column hAlign="End" minScreenWidth="650px" demandPopin="true">
 							<header>
-								<Text text="Total price" />
+								<Text text="{i18n>TotalPrice}" />
 							</header>
 						</Column>
 
 						<Column minScreenWidth="700px" demandPopin="true">
 							<header>
-								<Text text="Ship country" />
+								<Text text="{i18n>ShipCountry}" />
 							</header>
 						</Column>
 					</columns>

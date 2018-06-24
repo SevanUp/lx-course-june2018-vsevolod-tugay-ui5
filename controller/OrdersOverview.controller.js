@@ -8,8 +8,17 @@ sap.ui.define([
 ], function (Controller, JSONModel, Filter, FilterOperator, MessageToast, MessageBox) {
 	"use strict";
 
+    var STATUS_PENDING = "pending";
+    var STATUS_ACCEPTED = "accepted";
+
 	return Controller.extend("vsevolod.tugay.controller.OrdersOverview", {
+
+        /**
+         * Controller's "init" lifecycle method.
+         */
 	    onInit: function () {
+
+            //model to store counts of filtered orders
 	        var oCountsModel = new JSONModel({
                 allCount: 0,
                 pendingCount: 0,
@@ -20,9 +29,10 @@ sap.ui.define([
 
             this.getView().setModel(oCountsModel, "countsModel");
 
+            //model to store filters
             var oFiltersModel = new JSONModel({
-                pending: [new Filter("summary/status", FilterOperator.EQ, "'pending'")],
-                accepted: [new Filter("summary/status", FilterOperator.EQ, "'accepted'")],
+                pending: [new Filter("summary/status", FilterOperator.EQ, "'" + STATUS_PENDING + "'")],
+                accepted: [new Filter("summary/status", FilterOperator.EQ, "'" + STATUS_ACCEPTED + "'")],
                 all: []
             });
 
@@ -30,7 +40,7 @@ sap.ui.define([
 
             this.getView().setModel(oFiltersModel, "filtersModel");
 
-
+            //model to store values from adding order form
             var oOrderValuesModel = new JSONModel({
                 customer: "",
                 shipName: "",
@@ -49,8 +59,11 @@ sap.ui.define([
 
             this.getView().setModel(oOrderValuesModel, "orderValuesModel");
 
-
         },
+
+        /**
+         * Counts number of orders based on the filter.
+         */
         countOrders: function() {
             var that = this;
 
@@ -74,12 +87,28 @@ sap.ui.define([
                 filters: this.oFiltersModel.getProperty("/accepted")
             });
         },
+
+        /**
+         * Gets the reference to the router instance.
+         *
+         * @returns {sap.ui.core.routing.Router} reference to the router instance.
+         */
         getRouter : function () {
             return sap.ui.core.UIComponent.getRouterFor(this);
         },
+
+        /**
+         * "View" after rendering lifecycle method.
+         */
         onAfterRendering: function () {
             this.countOrders();
         },
+
+        /**
+         * "Select" event handler of the "IconTabBar".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onIconTabFilterSelect: function(oEvent) {
             var sKey = oEvent.getParameter("key");
 
@@ -89,6 +118,12 @@ sap.ui.define([
 
             oOrdersBinding.filter(this.oFiltersModel.getProperty("/" + sKey));
         },
+
+        /**
+         * "ItemPress" event handler of the "Table".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onSingleOrderPress: function (oEvent) {
             var oSelectedListItem = oEvent.getParameter("listItem");
 
@@ -98,6 +133,12 @@ sap.ui.define([
                 orderId: oCtx.getObject("id")
             });
         },
+
+        /**
+         * "Delete" event handler of the "Table".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onSingleOrderDelete: function (oEvent) {
 	        var that = this;
 
@@ -119,7 +160,11 @@ sap.ui.define([
                 }
             });
         },
-        onAddOrderFormPress: function (oEvent) {
+
+        /**
+         * "Press" event handler of the "Button".
+         */
+        onAddOrderFormPress: function () {
             var oView = this.getView();
 
             if (!this.oDialog) {
@@ -130,7 +175,11 @@ sap.ui.define([
 
             this.oDialog.open();
         },
-        onAddOrderPress: function (oEvent) {
+
+        /**
+         * "Press" event handler of the "Button".
+         */
+        onAddOrderPress: function () {
 	        var that = this;
 
 	        var oAddOrderForm = this.getView().byId("AddOrderForm");
@@ -153,7 +202,7 @@ sap.ui.define([
                 }
             });
             if(isErrorField) {
-                MessageBox.error("Incorrect input values!");
+                MessageBox.error("Empty / incorrect input values!");
                 return;
             }
 
@@ -163,7 +212,7 @@ sap.ui.define([
                 "summary": {
                     "createdAt": new Date().toISOString(),
                     "customer": this.oOrderValuesModel.getProperty("/customer"),
-                    "status": "pending",
+                    "status": STATUS_PENDING,
                     "shippedAt": new Date().toISOString(),
                     "totalPrice": 100,
                     "currency": "EUR"
@@ -194,8 +243,11 @@ sap.ui.define([
                     MessageBox.error("Error while adding order!");
                 }
             });
-
         },
+
+        /**
+         * "Press" event handler of the "Button".
+         */
         onCancelAddOrderPress: function () {
             var oAddOrderForm = this.getView().byId("AddOrderForm");
 
@@ -208,6 +260,12 @@ sap.ui.define([
 
             this.oDialog.close();
         },
+
+        /**
+         * "LiveChange" event handler of the "Input".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         onRequiredInputKeyPress: function (oEvent) {
 	        if(oEvent.getSource().getValue() !== "") {
                 oEvent.getSource().setValueState("Success");
@@ -216,6 +274,12 @@ sap.ui.define([
                 oEvent.getSource().setValueStateText("Enter info");
             }
         },
+
+        /**
+         * "LiveChange" event handler of the "Input".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         validatePhone: function (oEvent) {
 	        if(oEvent.getSource().getValue() === "") {
                 oEvent.getSource().setValueState("None");
@@ -234,6 +298,12 @@ sap.ui.define([
                 oEvent.getSource().setValueState("Success");
             }
         },
+
+        /**
+         * "LiveChange" event handler of the "Input".
+         *
+         * @param {sap.ui.base.Event} oEvent event object.
+         */
         validateEmail: function (oEvent) {
             if(oEvent.getSource().getValue() === "") {
                 oEvent.getSource().setValueState("None");
@@ -251,6 +321,5 @@ sap.ui.define([
                 oEvent.getSource().setValueState("Success");
             }
         }
-
 	});
 });
