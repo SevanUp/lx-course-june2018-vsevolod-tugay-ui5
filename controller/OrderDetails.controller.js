@@ -177,12 +177,19 @@ sap.ui.define([
 
             var sKey = oODataModel.createKey("/OrderProducts", oCtx.getObject());
 
-            oODataModel.remove(sKey, {
-                success: function () {
-                    MessageToast.show("Product was successfully removed!")
-                },
-                error: function () {
-                    MessageBox.error("Error while removing product!");
+            MessageBox.confirm("Are you sure you want to delete this product?", {
+                actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+                onClose: function(oAction) {
+                    if (oAction === "OK") {
+                        oODataModel.remove(sKey, {
+                            success: function () {
+                                MessageToast.show("Product was successfully removed!")
+                            },
+                            error: function () {
+                                MessageBox.error("Error while removing product!");
+                            }
+                        });
+                    }
                 }
             });
         },

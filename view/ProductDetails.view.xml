@@ -55,11 +55,7 @@
                 id="idCommentsList"
                 showSeparators="Inner"
                 items="{
-                     path: 'odata>comments',
-                     sorter: {
-                        path: 'createdDate',
-                        descending: true
-                     }
+                     path: 'odata>comments'
                   }">
             <FeedListItem
                     sender="{odata>author}"

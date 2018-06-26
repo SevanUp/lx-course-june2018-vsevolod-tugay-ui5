@@ -140,7 +140,9 @@ sap.ui.define([
          * @param {sap.ui.base.Event} oEvent event object.
          */
         onSingleOrderDelete: function (oEvent) {
-	        var that = this;
+            var that = this;
+
+            var oOrderEvent = oEvent;
 
             var oDeletedOrder = oEvent.getParameter("listItem");
 
@@ -148,17 +150,25 @@ sap.ui.define([
 
             var oODataModel = oCtx.getModel();
 
-            var sKey = oODataModel.createKey("/Orders", oCtx.getObject());
+            MessageBox.confirm("Are you sure you want to delete this order?",{
+                actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+                onClose: function(oAction) {
+                    if (oAction === "OK") {
+                        var sKey = oODataModel.createKey("/Orders", oCtx.getObject());
 
-            oODataModel.remove(sKey, {
-                success: function () {
-                    MessageToast.show("Order was successfully removed!");
-                    that.countOrders();
-                },
-                error: function () {
-                    MessageBox.error("Error while removing order!");
+                        oODataModel.remove(sKey, {
+                            success: function () {
+                                MessageToast.show("Order was successfully removed!");
+                                that.countOrders();
+                            },
+                            error: function () {
+                                MessageBox.error("Error while removing order!");
+                            }
+                        });
+                    }
                 }
             });
+
         },
 
         /**
